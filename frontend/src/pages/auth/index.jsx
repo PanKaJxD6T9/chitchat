@@ -3,18 +3,79 @@ import Victory from '@/assets/victory.svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {apiClient} from '@/lib/api-client.js'
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from '@/utils/constants'
 
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 const Auth = () => {
 
+  const navigate = useNavigate();
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
 
-  const handleLogin = async() => {};
+  const validateSignup= ()=>{
+    if(!email.length){
+      toast.error("Email is Required...");
+      return false;
+    }
+    if(!password.length){
+      toast.error("Password is Required...");
+      return false;
+    }
+    if(password !== confirmPassword){
+      toast.error("Password and Confirm Password must be Same...");
+      return false;
+    }
 
-  const handleRegister = async() => {};
+    return true;
+  }
+
+  const validateLogin = () =>{
+    if(!email.length){
+      toast.error("Email is Required...");
+      return false;
+    }
+    if(!password.length){
+      toast.error("Password is Required...");
+      return false;
+    }
+
+    return true;
+  }
+
+  const handleLogin = async() => {
+    if(validateLogin()){
+      const response = await apiClient.post(LOGIN_ROUTE, {email, password}, {withCredentials: true});
+      console.log(response);
+
+      if(response.data.user.id){
+        if(response.data.user.profileSetup){
+          navigate('/chat')
+        } else {
+          navigate('/profile')
+        }
+      }
+
+    }
+
+  };
+
+  const handleRegister = async() => {
+    if(validateSignup()){
+      const response = await apiClient.post(SIGNUP_ROUTE, {email, password}, {withCredentials: true});
+      console.log(response);
+
+      if(response.status === 201){
+        navigate('/profile');
+      }
+
+    }
+
+  };
   
 
   return (
@@ -30,7 +91,7 @@ const Auth = () => {
             <p className='font-medium text-center'>Fill the details and get started</p>
           </div>
           <div className='flex items-center justify-center w-full '>
-            <Tabs className='w-3/4'>
+            <Tabs className='w-3/4' defaultValue='login'>
               <TabsList className='bg-transparent rounded-none w-full'>
                 <TabsTrigger className='data-[state=active]:bg-transparent text-black text-opacity-90 border-b-2 rounded-none w-full data-[state=active]:text-black data-[state=active]:font-semibold data-[state=active]:border-b-purple-500 p-3 transition-all duration-300' value='login' >Login</TabsTrigger>
                 <TabsTrigger className='data-[state=active]:bg-transparent text-black text-opacity-90 border-b-2 rounded-none w-full data-[state=active]:text-black data-[state=active]:font-semibold data-[state=active]:border-b-purple-500 p-3 transition-all duration-300' value='register' >Register</TabsTrigger>
@@ -38,13 +99,13 @@ const Auth = () => {
               <TabsContent className='flex flex-col gap-5 mt-10' value='login' >
                 <Input placeholder='Email' type='email' className='rounded-full p-6' value={email} onChange={(e)=>setEmail(e.target.value)} />
                 <Input placeholder='Password' type='password' className='rounded-full p-6' value={password} onChange={(e)=>setPassword(e.target.value)} />
-                <Button className='rounded-full p-6' type='submit' onSubmit={handleLogin} >Login</Button>
+                <Button className='rounded-full p-6' type='submit' onClick={handleLogin} >Login</Button>
               </TabsContent>
               <TabsContent className='flex flex-col gap-5' value='register' >
                 <Input placeholder='Email' type='email' className='rounded-full p-6' value={email} onChange={(e)=>setEmail(e.target.value)} />
                 <Input placeholder='Password' type='password' className='rounded-full p-6' value={password} onChange={(e)=>setPassword(e.target.value)} />
                 <Input placeholder='Confirm Password' type='password' className='rounded-full p-6' value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} />
-                <Button className='rounded-full p-6' type='submit' onSubmit={handleRegister} >Register</Button>
+                <Button className='rounded-full p-6' type='submit' onClick={handleRegister} >Register</Button>
               </TabsContent>
             </Tabs>
           </div>
