@@ -27,10 +27,10 @@ const AuthRoute = ({children}) => {
   // Ensure that the component does not cause a re-render loop
   if (isAuthenticated) {
     // Check if the user's profile is set up
-    if (!userInfo.isProfileSetUp) {
+    if (!userInfo.profileSetup) {
       return <Navigate to='/profile'/>; // Redirect to /profile if not set up
     }
-    return <Navigate to='/chat'/>; // Redirect to /chat if set up
+    return <Navigate to='/chats'/>; // Redirect to /chat if set up
   }
   
   return children;
