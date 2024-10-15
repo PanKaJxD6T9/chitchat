@@ -39,8 +39,8 @@ app.get("/", (req, res)=>{
     res.send("hello mf")
 });
 
-setupSocket(server);
-
-app.listen(port, ()=>{
+const server = app.listen(port, ()=>{
     console.log(`Server listening on Port: ${port}`)
 });
+
+setupSocket(server);

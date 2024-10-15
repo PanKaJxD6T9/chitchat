@@ -23,11 +23,11 @@ const setupSocket = (server) => {
     }
 
     io.on("connection", (socket)=>{
-        const userId = user.handshake.query.userId;
+        const userId = socket.handshake.query.userId;
 
         if(userId){
             userSocketMap.set(userId, socket.id);
-            console.log(`User Connected with ${userId} with SocketID ${socket.id}`);
+            console.log(`-- User Connected with ${userId} with SocketID : ${socket.id}`);
         } else {
             console.log("cannot establish connection");
         }   
