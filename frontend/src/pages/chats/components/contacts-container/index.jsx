@@ -1,6 +1,7 @@
 import Logo from '@/components/Logo';
 import Title from '@/components/Title';
 import React from 'react'
+import ProfileInfo from './components/profile-info';
 
 const ContactsContainer = () => {
   return (
@@ -18,6 +19,7 @@ const ContactsContainer = () => {
                 <Title text={"Group Chats"}/>
             </div>
         </div>
+        <ProfileInfo />
     </div>
   )
 }
