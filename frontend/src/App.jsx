@@ -1,5 +1,4 @@
 import React, { Children, useEffect, useState } from 'react'
-import { Button } from './components/ui/button'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Auth from './pages/auth'
 import Chat from './pages/chats'
