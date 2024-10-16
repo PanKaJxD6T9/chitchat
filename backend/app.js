@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import authRoutes from './routes/authRoute.js'
 import contactRoutes from './routes/contactRoute.js'
 import setupSocket from './socket.js'
+import messagesRoutes from './routes/messagesRoute.js'
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/contacts', contactRoutes)
+app.use('/api/v1/messages', messagesRoutes)
 
 mongoose.connect(databaseUrl)
 .then(()=>{

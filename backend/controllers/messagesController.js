@@ -1,33 +1,24 @@
-export const searchContacts = async(req, res, next)=>{
+import Message from "../models/messageModel.js";
+
+export const getMessages = async(req, res, next)=>{
     try{
         
-        const {searchTerm} = req.body;
+        const user1 = req.userId;
+        const user2 = req.body.id;
 
-        if(searchTerm === undefined || searchTerm === null){
-            return res.status(400).send("Search Term is required");
+
+
+        if(!user1 || !user2){
+            return res.status(400).send("Both User are required");
         }
 
-        const sanitizedSearchTerm = searchTerm.replace(
-            /[.*+?^${}()|[\]\\]/g,
-            "\\$&"
-        );
-          
-        const regex = new RegExp(sanitizedSearchTerm, "i");
+        const messages = await Message.find({
+            $or: [
+                {sender: user1, recipient: user2}, {sender: user2, recipient: user1},
+            ],
+        }).sort({timestamp: 1});
 
-        const contacts = await User.find({
-          $and: [
-            { _id: { $ne: req.userId } },
-            {
-              $or: [
-                { firstname: regex },
-                { lastname: regex },
-                { email: regex },
-              ],
-            },
-          ],
-        });
-
-        return res.status(200).json({contacts});
+        return res.status(200).json({messages});
 
     } catch(err){
         console.log(err);
