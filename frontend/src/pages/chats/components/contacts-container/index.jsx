@@ -38,11 +38,6 @@ const ContactsContainer = () => {
                 <ContactList contacts={directMessagesContacts} />
             </div>
         </div>
-        <div className="my-5">
-            <div className="flex items-center justify-between pr-10">
-                <Title text={"Group Chats"}/>
-            </div>
-        </div>
         <ProfileInfo />
     </div>
   )
