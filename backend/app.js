@@ -16,7 +16,7 @@ const port = process.env.PORT || 8080;
 const databaseUrl = process.env.DATABASE_URL;
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://vartalaap-hub.vercel.app"); // Update with your origin
+    res.header("Access-Control-Allow-Origin", process.env.ORIGIN); // Update with your origin
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
