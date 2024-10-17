@@ -10,7 +10,7 @@ const ChatHeader = () => {
   const {closeChat, selectedChatData, selectedChatType} = useAppStore();
 
   return (
-    <div className="h-[10vh] border-b-2 border-[#2f303b] flex items-center justify-between px-20">
+    <div className="h-[10vh] border-b-2 border-[#2f303b] flex items-center justify-between px-10">
       <div className="flex items-center gap-5 w-full justify-between">
         <div className="flex gap-3 items-center justify-center">
           <div className="w-12 h-12 relative">
