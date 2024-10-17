@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoute.js'
 import contactRoutes from './routes/contactRoute.js'
 import setupSocket from './socket.js'
 import messagesRoutes from './routes/messagesRoute.js'
+import helmet from 'helmet'
 
 dotenv.config();
 
@@ -14,6 +15,15 @@ const app = express()
 const port = process.env.PORT || 8080;
 
 const databaseUrl = process.env.DATABASE_URL;
+
+// Add error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
+// Add security middleware
+app.use(helmet());
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", process.env.ORIGIN); // Update with your origin
@@ -35,6 +45,12 @@ app.use(express.json());
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/contacts', contactRoutes)
 app.use('/api/v1/messages', messagesRoutes)
+
+// Ensure environment variables are set
+if (!process.env.DATABASE_URL || !process.env.ORIGIN) {
+    console.error("Missing environment variables!");
+    process.exit(1); // Exit if critical variables are missing
+}
 
 mongoose.connect(databaseUrl)
 .then(()=>{
