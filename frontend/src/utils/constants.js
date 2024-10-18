@@ -1,4 +1,4 @@
-export const HOST = import.meta.env.VITE_SERVER_URL;
+export const HOST = "http://localhost:8080";
 export const AUTH_ROUTES = "api/v1/auth";
 export const CONTACTS_ROUTES = "api/v1/contacts";
 export const MESSAGES_ROUTES = "/api/v1/messages";
