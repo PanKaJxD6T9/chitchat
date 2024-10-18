@@ -29,7 +29,7 @@ app.use((err, req, res, next) => {
 app.use(helmet());
 
 app.use((req, res, next) => {
-    res.setHeader("Content-Security-Policy", "img-src 'self' data: https://cdn.jsdelivr.net https://images.unsplash.com/;");
+    res.setHeader("Content-Security-Policy", "img-src 'self' data: https://cdn.jsdelivr.net https://images.unsplash.com;");
     next();
 });
 
